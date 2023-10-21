@@ -1,0 +1,244 @@
+#%RAML 1.0
+title: emp
+baseUri: http://localhost:8081/emp
+securitySchemes:
+  basic:
+    type: Basic Authentication 
+    description: this api is secured by basic authentication
+/create-employee:
+  post:
+    securedBy: [basic]
+    body:
+      application/json:
+        type: object
+        properties:
+          employeeID:
+            required: true
+            type: integer
+            example: 1234
+          employeeName:
+            required: true
+            minLength: 1
+            maxLength: 20
+            type: string
+            example: "Aakash"
+          employeeStatus:
+            required: true
+            minLength: 1
+            maxLength: 2
+            type: string
+            example: "A"
+        example:
+          {
+            "employeeID": 1234,
+            "employeeName": "Aakash",
+            "employeeStatus": "A"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+             type: object
+             properties:
+              status:
+                type: integer
+                required: true
+                example: 200
+              message:
+                type: string
+                required: true
+                example: "Success"
+             example:
+               {
+                 "status": 200,
+                 "message": "Success"
+               }
+      500:
+        body:
+          application/json:
+             type: object
+             properties:
+              status:
+                type: integer
+                required: true
+                example: 500
+              message:
+                type: string
+                required: true
+                example: "error"
+             example:
+               {
+                 "status": 500,
+                 "message": "error"
+               }
+/update-employee:
+  put:
+    securedBy: [basic]
+    body:
+      application/xml:
+        type: object
+        xml:
+          name: employee
+        properties:
+          employeeID:
+            required: true
+            type: integer
+            example: 1234
+          employeeStatus:
+            required: false
+            type: string
+            example: "A"
+        example:
+          <?xml version="1.0" encoding="UTF-8"?>
+            <employee>
+              <employeeID>1234</employeeID>
+              <employeeStatus>A</employeeStatus>
+            </employee>
+    responses:
+      200:
+        body:
+          application/xml:
+            type: object
+            xml:
+              name: response
+            properties:
+              status:
+                type: integer
+                required: true
+                example: 200
+              message:
+                type: string
+                required: true
+                example: "Success"
+            example:
+              <?xml version="1.0" encoding="UTF-8"?>
+              <response>
+                <status>200</status>
+                <message>success</message>
+              </response>
+      500:
+        body:
+          application/xml:
+            type: object
+            xml:
+              name: response
+            properties:
+              status:
+                type: integer
+                required: true
+                example: 500
+              message:
+                type: string
+                required: true
+                example: "error"
+            example:
+              <?xml version="1.0" encoding="UTF-8"?>
+              <response>
+                <status>500</status>
+                <message>error</message>
+              </response>
+/get-employee:
+  get:
+    securedBy: [basic]
+    queryParameters:
+      employeeID:
+        required: true
+        type: integer
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              employeeID:
+                type: integer
+                required: true
+                example: 1234
+              employeeName:
+                type: string
+                required: true
+                example: "Aakash"
+              employeeStatus:
+                type: string
+                required: true
+                example: "A"
+            example:
+              {
+                "employeeID": 1234,
+                "employeeName": "Aakash",
+                "employeeStatus": "A"
+              }
+      500:
+        body:
+          application/json:
+            type: object
+            properties:
+              status:
+                type: integer
+                required: true
+                example: 404
+              message:
+                type: string
+                required: true
+                example: "Employee not found"
+            example:
+              {
+                "status": 404,
+                "message": "Employee not found"
+              }
+/delete-employee:
+  delete:
+    securedBy: [basic]
+    queryParameters:
+      employeeID:
+        required: true
+        type: integer
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              status:
+                type: integer
+                required: true
+                example: 200
+              message:
+                type: string
+                required: true
+                example: "Employee deleted"
+            example:
+              {
+                "status": 200,
+                "message": "Employee deleted"
+              }
+      404:
+        body:
+          application/json:
+            type: object
+            properties:
+              status:
+                type: integer
+                required: true
+                example: 404
+              message:
+                type: string
+                required: true
+                example: "Employee not found"
+            example:
+              {
+                "status": 404,
+                "message": "Employee not found"
+              }
+
+              
+              
+          
+
+           
+        
+            
+                  
+                  
+            
+              
